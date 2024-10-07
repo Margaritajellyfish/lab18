@@ -5,8 +5,8 @@ using namespace std;
 struct Node{
     double rate;
     string comment;
-    Node * previous = nullptr;
-    Node * next = nullptr;
+    Node * previous;
+    Node * next;
 };
 
 int main(){
@@ -17,7 +17,7 @@ int main(){
     Node *tail = nullptr;
     Node *current = nullptr;
     do{
-        cout << "Which linked list method should we use?\n [1] New nodes are added at the head of the linked list\n[2] New nodes are added at the tail of the linked list\nChoice: ";
+        cout << "Which linked list method should we use?\n[1] New nodes are added at the head of the linked list\n[2] New nodes are added at the tail of the linked list\nChoice: ";
         cin >> choice;
         while((choice != 1)&&(choice!=2)){
             cout << "Which linked list method should we use?\n [1] New nodes are added at the head of the linked list\n[2] New nodes are added at the tail of the linked list\nChoice: ";
@@ -27,19 +27,23 @@ int main(){
         cout << "Enter review rating 0-5: ";
         cin >> temp->rate;
         cout << "Enter review comments: ";
-        cin >> temp->comment;
+        cin.ignore();
+        getline(cin, temp->comment);
+
         if(head==nullptr){
             head = temp;
             tail = temp;
         }
-        while(head){
+        else{
             if(choice==1){
 
                 temp->next = head;
+                head->previous = temp;
                 head = temp;
             }
             else{
                 temp->previous = tail;
+                tail->next = temp;
                 tail = temp;
             }
 
@@ -58,7 +62,7 @@ int main(){
     current = head;
     cout << "Outputting all reviews: \n";
     int count = 1;
-    int total = 0;
+    double total = 0;
     while(current){
         cout << "> Review #" << count << ": " << current->rate << ": " << current->comment << endl;
         total += current->rate;
